@@ -242,3 +242,15 @@ C:\Users\Asus\Desktop\StudentApi\obj\Debug\net10.0\refint\StudentApi.dll
 C:\Users\Asus\Desktop\StudentApi\obj\Debug\net10.0\StudentApi.pdb
 C:\Users\Asus\Desktop\StudentApi\obj\Debug\net10.0\StudentApi.genruntimeconfig.cache
 C:\Users\Asus\Desktop\StudentApi\obj\Debug\net10.0\ref\StudentApi.dll
+C:\Users\Asus\Desktop\StudentApi\bin\Debug\net10.0\FluentValidation.dll
+C:\Users\Asus\Desktop\StudentApi\bin\Debug\net10.0\FluentValidation.AspNetCore.dll
+C:\Users\Asus\Desktop\StudentApi\bin\Debug\net10.0\FluentValidation.DependencyInjectionExtensions.dll
+C:\Users\Asus\Desktop\StudentApi\bin\Debug\net10.0\Serilog.dll
+C:\Users\Asus\Desktop\StudentApi\bin\Debug\net10.0\Serilog.AspNetCore.dll
+C:\Users\Asus\Desktop\StudentApi\bin\Debug\net10.0\Serilog.Extensions.Hosting.dll
+C:\Users\Asus\Desktop\StudentApi\bin\Debug\net10.0\Serilog.Extensions.Logging.dll
+C:\Users\Asus\Desktop\StudentApi\bin\Debug\net10.0\Serilog.Formatting.Compact.dll
+C:\Users\Asus\Desktop\StudentApi\bin\Debug\net10.0\Serilog.Settings.Configuration.dll
+C:\Users\Asus\Desktop\StudentApi\bin\Debug\net10.0\Serilog.Sinks.Console.dll
+C:\Users\Asus\Desktop\StudentApi\bin\Debug\net10.0\Serilog.Sinks.Debug.dll
+C:\Users\Asus\Desktop\StudentApi\bin\Debug\net10.0\Serilog.Sinks.File.dll

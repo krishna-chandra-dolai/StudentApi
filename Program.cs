@@ -1,16 +1,28 @@
+﻿using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using StudentApi.Data;
+using StudentApi.Models;
+using StudentApi.Profiles;
+using StudentApi.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services
-builder.Services.AddControllers();
-
-// Configure EF Core provider — change UseSqlite <-> UseSqlServer depending on your choice
-// Current default below uses SQLite (file-based). To use SQL Server, replace UseSqlite with UseSqlServer.
+// Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
-);
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Controllers + FluentValidation
+builder.Services.AddControllers()
+    .AddFluentValidation();
+
+// Register FluentValidation validators from current assembly
+builder.Services.AddValidatorsFromAssemblyContaining<StudentDtoValidator>();
+
+// AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+// Repository DI
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -18,17 +30,17 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Middleware pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.MapGet("/", () => Results.Redirect("/swagger"));
-
 app.UseHttpsRedirection();
+
 app.UseAuthorization();
+
 app.MapControllers();
+
 app.Run();
-
-
