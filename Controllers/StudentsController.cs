@@ -1,8 +1,6 @@
-﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using StudentApi.Dtos;
-using StudentApi.Models;
-using StudentApi.Repositories;
+using StudentApi.Services;
 
 namespace StudentApi.Controllers
 {
@@ -10,61 +8,39 @@ namespace StudentApi.Controllers
     [Route("api/[controller]")]
     public class StudentsController : ControllerBase
     {
-        private readonly IStudentRepository _repo;
-        private readonly IMapper _mapper;
-
-        public StudentsController(IStudentRepository repo, IMapper mapper)
-        {
-            _repo = repo;
-            _mapper = mapper;
-        }
+        private readonly IStudentService _svc;
+        public StudentsController(IStudentService svc) => _svc = svc;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<StudentDto>>> GetAll()
-        {
-            var students = await _repo.GetAllAsync();
-            return Ok(_mapper.Map<IEnumerable<StudentDto>>(students));
-        }
+        public async Task<IActionResult> GetAll() => Ok(await _svc.GetAllAsync());
 
         [HttpGet("{id}", Name = "GetStudentById")]
-        public async Task<ActionResult<StudentDto>> GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var student = await _repo.GetByIdAsync(id);
-            if (student == null) return NotFound();
-            return Ok(_mapper.Map<StudentDto>(student));
+            var s = await _svc.GetByIdAsync(id);
+            return s == null ? NotFound() : Ok(s);
         }
 
         [HttpPost]
-        public async Task<ActionResult<StudentDto>> Create([FromBody] StudentDto studentDto)
+        public async Task<IActionResult> Create([FromBody] StudentDto dto)
         {
-            var student = _mapper.Map<Student>(studentDto);
-            var created = await _repo.AddAsync(student);
-            var resultDto = _mapper.Map<StudentDto>(created);
-            return CreatedAtRoute("GetStudentById", new { id = resultDto.Id }, resultDto);
+            var created = await _svc.CreateAsync(dto);
+            return CreatedAtRoute("GetStudentById", new { id = created.Id }, created);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] StudentDto studentDto)
+        public async Task<IActionResult> Update(int id, [FromBody] StudentDto dto)
         {
-            if (id != studentDto.Id) return BadRequest("Id mismatch");
-
-            var existing = await _repo.GetByIdAsync(id);
-            if (existing == null) return NotFound();
-
-            _mapper.Map(studentDto, existing);
-            await _repo.UpdateAsync(existing);
-
-            return NoContent();
+            if (id != dto.Id) return BadRequest("Id mismatch");
+            var ok = await _svc.UpdateAsync(id, dto);
+            return ok ? NoContent() : NotFound();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var existing = await _repo.GetByIdAsync(id);
-            if (existing == null) return NotFound();
-
-            await _repo.DeleteAsync(existing);
-            return NoContent();
+            var ok = await _svc.DeleteAsync(id);
+            return ok ? NoContent() : NotFound();
         }
     }
 }

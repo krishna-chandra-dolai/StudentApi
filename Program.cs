@@ -1,9 +1,11 @@
-﻿using FluentValidation.AspNetCore;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using StudentApi.Data;
 using StudentApi.Models;
 using StudentApi.Profiles;
 using StudentApi.Repositories;
+using StudentApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +25,8 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Repository DI
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-
+// Service DI
+builder.Services.AddScoped<IStudentService, StudentService>();
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -44,3 +47,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+
+
+

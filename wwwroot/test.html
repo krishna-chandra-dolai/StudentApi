@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>StudentApi Demo</title></head>
+<body>
+  <h2>Students (via jQuery)</h2>
+  <button id="load">Load Students</button>
+  <ul id="list"></ul>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script>
+    $("#load").on("click", function() {
+      $.ajax({
+        url: "/api/students",
+        method: "GET",
+        success: function(data){
+          $("#list").empty();
+          if(!data || data.length === 0){ $("#list").append("<li>(no students)</li>"); return; }
+          data.forEach(function(s){
+            $("#list").append("<li>" + s.id + " � " + s.name + " (" + s.email + ")</li>");
+          });
+        },
+        error: function(e){ alert("Error: " + e.statusText); }
+      });
+    });
+  </script>
+</body>
+</html>
