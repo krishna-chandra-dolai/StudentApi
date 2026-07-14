@@ -72,7 +72,7 @@ Base route: `/api/students`
 
 ```bash
 # 1. Clone
-git clone https://github.com/krishna-krishna-26/StudentApi.git
+git clone https://github.com/krishna-chandra-dolai/StudentApi.git
 cd StudentApi
 
 # 2. Apply EF Core migrations (creates the SQLite database)
