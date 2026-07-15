@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using StudentApi.Dtos;
+using Xunit;
 
 namespace StudentApi.Tests;
 
