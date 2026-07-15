@@ -1,6 +1,6 @@
 # StudentApi
 
-> A clean **ASP.NET Core Web API** (2025) for managing student records, built with **Entity Framework Core**, **AutoMapper**, and **FluentValidation** following a layered Controller → Service → Repository architecture.
+> A clean **ASP.NET Core Web API** (2025) for managing student records, built with **Entity Framework Core** and **FluentValidation** following a layered Controller → Service → Repository architecture.
 
 ---
 
@@ -11,7 +11,7 @@ StudentApi is a RESTful CRUD API for `Student` records. It demonstrates a mainta
 - **Controller layer** handles HTTP requests/responses.
 - **Service layer** holds business logic and DTO mapping.
 - **Repository layer** encapsulates data access via EF Core.
-- **DTOs + AutoMapper** decouple the API contract from the database entity.
+- **DTOs + explicit mapping** decouple the API contract from the database entity.
 - **FluentValidation** validates incoming data before it reaches the database.
 - **Swagger / OpenAPI** provides interactive API documentation.
 
@@ -21,7 +21,7 @@ The data is persisted in a local **SQLite** database via EF Core with code-first
 
 - **.NET 10** Web API, C#
 - **Entity Framework Core** (SQLite provider, code-first migrations)
-- **AutoMapper** — entity ↔ DTO mapping
+- **Explicit mapping** — dependency-free entity ↔ DTO conversion
 - **FluentValidation** — request validation
 - **Swagger / Swashbuckle** (OpenAPI) — API docs
 - Repository pattern + service layer
@@ -95,7 +95,6 @@ StudentApi/
 ├── Repositories/        # IStudentRepository / StudentRepository — EF Core data access
 ├── Models/              # Student entity + FluentValidation validators
 ├── Dtos/                # StudentDto — API contract
-├── Profiles/            # AutoMapper mapping profile
 ├── Data/                # AppDbContext (EF Core)
 ├── Migrations/          # EF Core code-first migrations
 ├── Images/              # Swagger screenshots
@@ -111,6 +110,10 @@ StudentApi/
 | ![Swagger Interface](Images/INTERFACE.png) | ![GET Students](Images/GET.png) |
 | ![POST Student](Images/POST%20ID.png) | ![GET by ID](Images/GET%20ID.png) |
 | ![PUT Student](Images/PUT%20ID.png) | ![DELETE Student](Images/DELETE%20ID.png) |
+
+## Automated verification
+
+`StudentApi.Tests` contains HTTP integration tests for successful creation and retrieval, validation failures, and missing-resource behavior. GitHub Actions restores, builds, and runs the tests on .NET 10 for every push and pull request.
 
 ## License
 

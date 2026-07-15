@@ -1,9 +1,7 @@
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using StudentApi.Data;
 using StudentApi.Models;
-using StudentApi.Profiles;
 using StudentApi.Repositories;
 using StudentApi.Services;
 
@@ -13,15 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Controllers + FluentValidation
-builder.Services.AddControllers()
-    .AddFluentValidation();
+builder.Services.AddControllers();
 
 // Register FluentValidation validators from current assembly
 builder.Services.AddValidatorsFromAssemblyContaining<StudentDtoValidator>();
-
-// AutoMapper
-builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Repository DI
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
@@ -42,13 +35,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Serve the browser demo in wwwroot/test.html.
+app.UseStaticFiles();
+
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
 
-
-
-
-
+// Exposes the generated entry point to WebApplicationFactory integration tests.
+public partial class Program { }
