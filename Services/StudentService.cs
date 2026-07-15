@@ -1,4 +1,3 @@
-using AutoMapper;
 using StudentApi.Dtos;
 using StudentApi.Models;
 using StudentApi.Repositories;
@@ -10,33 +9,48 @@ namespace StudentApi.Services
     public class StudentService : IStudentService
     {
         private readonly IStudentRepository _repo;
-        private readonly IMapper _mapper;
-        public StudentService(IStudentRepository repo, IMapper mapper) { _repo = repo; _mapper = mapper; }
+        public StudentService(IStudentRepository repo) => _repo = repo;
+
+        private static StudentDto ToDto(Student student) => new()
+        {
+            Id = student.Id,
+            Name = student.Name,
+            Age = student.Age,
+            Email = student.Email
+        };
+
+        private static void ApplyDto(StudentDto dto, Student student)
+        {
+            student.Name = dto.Name;
+            student.Age = dto.Age;
+            student.Email = dto.Email;
+        }
 
         public async Task<IEnumerable<StudentDto>> GetAllAsync()
         {
             var list = await _repo.GetAllAsync();
-            return _mapper.Map<IEnumerable<StudentDto>>(list);
+            return list.Select(ToDto);
         }
 
         public async Task<StudentDto?> GetByIdAsync(int id)
         {
             var s = await _repo.GetByIdAsync(id);
-            return s == null ? null : _mapper.Map<StudentDto>(s);
+            return s == null ? null : ToDto(s);
         }
 
         public async Task<StudentDto> CreateAsync(StudentDto dto)
         {
-            var model = _mapper.Map<Student>(dto);
+            var model = new Student();
+            ApplyDto(dto, model);
             var created = await _repo.AddAsync(model);
-            return _mapper.Map<StudentDto>(created);
+            return ToDto(created);
         }
 
         public async Task<bool> UpdateAsync(int id, StudentDto dto)
         {
             var exist = await _repo.GetByIdAsync(id);
             if (exist == null) return false;
-            _mapper.Map(dto, exist);
+            ApplyDto(dto, exist);
             await _repo.UpdateAsync(exist);
             return true;
         }
