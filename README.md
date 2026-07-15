@@ -115,6 +115,8 @@ StudentApi/
 
 `StudentApi.Tests` contains HTTP integration tests for successful creation and retrieval, validation failures, and missing-resource behavior. GitHub Actions restores, builds, and runs the tests on .NET 10 for every push and pull request.
 
+See the [project evidence guide](docs/evidence-guide.md) for direct links to screenshots, tests, migration, demo page, and architecture evidence.
+
 ## License
 
 Released under the [MIT License](LICENSE).
