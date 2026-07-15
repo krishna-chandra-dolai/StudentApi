@@ -42,6 +42,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Serve the browser demo in wwwroot/test.html.
+app.UseStaticFiles();
+
 app.UseAuthorization();
 
 app.MapControllers();
