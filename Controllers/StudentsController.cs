@@ -32,7 +32,7 @@ namespace StudentApi.Controllers
         public async Task<IActionResult> Create([FromBody] StudentDto dto)
         {
             var validation = await _validator.ValidateAsync(dto);
-            if (!validation.IsValid) return ValidationProblem(validation.ToDictionary());
+            if (!validation.IsValid) return ValidationProblem(new ValidationProblemDetails(validation.ToDictionary()));
             var created = await _svc.CreateAsync(dto);
             return CreatedAtRoute("GetStudentById", new { id = created.Id }, created);
         }
@@ -42,7 +42,7 @@ namespace StudentApi.Controllers
         {
             if (id != dto.Id) return BadRequest("Id mismatch");
             var validation = await _validator.ValidateAsync(dto);
-            if (!validation.IsValid) return ValidationProblem(validation.ToDictionary());
+            if (!validation.IsValid) return ValidationProblem(new ValidationProblemDetails(validation.ToDictionary()));
             var ok = await _svc.UpdateAsync(id, dto);
             return ok ? NoContent() : NotFound();
         }
