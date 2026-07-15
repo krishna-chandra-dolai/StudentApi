@@ -9,6 +9,8 @@ namespace StudentApi.Tests;
 
 public sealed class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
+    private readonly string _databaseName = $"StudentApiTests-{Guid.NewGuid()}";
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureServices(services =>
@@ -24,7 +26,7 @@ public sealed class CustomWebApplicationFactory : WebApplicationFactory<Program>
             }
 
             services.AddDbContext<AppDbContext>(options =>
-                options.UseInMemoryDatabase($"StudentApiTests-{Guid.NewGuid()}"));
+                options.UseInMemoryDatabase(_databaseName));
         });
     }
 }
