@@ -112,6 +112,10 @@ StudentApi/
 | ![POST Student](Images/POST%20ID.png) | ![GET by ID](Images/GET%20ID.png) |
 | ![PUT Student](Images/PUT%20ID.png) | ![DELETE Student](Images/DELETE%20ID.png) |
 
+## Automated verification
+
+`StudentApi.Tests` contains HTTP integration tests for successful creation and retrieval, validation failures, and missing-resource behavior. GitHub Actions restores, builds, and runs the tests on .NET 10 for every push and pull request.
+
 ## License
 
 Released under the [MIT License](LICENSE).

@@ -51,7 +51,5 @@ app.MapControllers();
 
 app.Run();
 
-
-
-
-
+// Exposes the generated entry point to WebApplicationFactory integration tests.
+public partial class Program { }
